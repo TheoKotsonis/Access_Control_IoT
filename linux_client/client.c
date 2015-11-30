@@ -86,51 +86,9 @@ int main(int argc, char **argv)
         inet_pton(AF_INET6, argv[2], &remaddr.sin6_addr);
         
         remaddrlen = sizeof(remaddr);
-        
-        /* set buffersize, leave space for the terminating NULL byte */
-     /*   buffersize = BUFFERSIZE - 1;
-        
-        buffer = malloc(BUFFERSIZE);
-        
-        if (buffer == NULL) {
-                fprintf(stderr, "ERROR buffer = malloc(BUFFERSIZE); FAILED: %s\n",
-                                strerror(errno));
-                close(sockfd);
-                exit(EXIT_FAILURE);
-        }
-       */ 
+         
         printf("Ready to send data..\n");
-        
-       /* while(1) {
-                fputs("> ", stdout);
-                bytes = getline(&buffer, &buffersize, stdin);
-                
-                buffer[bytes] = '\0';
-                                
-                bytes = sendto(sockfd, (void *)buffer, strlen(buffer), 0,
-                               (struct sockaddr *)&remaddr, remaddrlen);
-                
-                if (bytes == -1) {
-                        fprintf(stderr, "ERROR " FILENAME ": "
-                                        "sendto(sockfd, (void *)buffer, strlen(buffer), 0, "
-                                        "(struct sockaddr *)&remaddr, remaddrlen) "
-                                        "FAILED: %s\n", strerror(errno));
-                        break;
-                }
- 
-                if (recvfrom(sockfd, buffer, buffersize, 0, (struct sockaddr *)&remaddr, &remaddrlen) == -1) {
-                        fprintf(stderr, "ERROR " FILENAME ": "
-                                        "recvfrom(sockfd, (void *)buffer, buffersize, 0, "
-                                        "(struct sockaddr *)&remaddr, &remaddrlen) "
-                                        "FAILED: %s\n", strerror(errno));
-                        break;
-                }       
-		printf("Perna gamw th mana tou\n");         
-                buffer[bytes] = '\0';
-                
-                printf("< %s\n", buffer);
-        }*/
-        
+       
         /* now send a datagram */
 	  if (sendto(sockfd, MESSAGE, sizeof(MESSAGE), 0, (struct sockaddr *)&remaddr, remaddrlen) < 0) {
 	      perror("sendto failed");
@@ -146,7 +104,6 @@ int main(int argc, char **argv)
 
 	  printf("got '%s' from %s\n", buffer, inet_ntop(AF_INET6, &remaddr.sin6_addr, str, INET6_ADDRSTRLEN));
         
-   //     free(buffer);
         close(sockfd);
         
         return 0;
